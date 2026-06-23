@@ -1,396 +1,483 @@
-<!doctype html>
-<html lang="id">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<script>
-(function () {
-  const POP_URL = "https://www.effectivegatecpm.com/ztq64ga7?key=73eff3d564ed5ace465b967a86312028";
-  const KEY = "popunder_last_ts";
-  const COOKIE = "popunder_last_ts";
-  const INTERVAL_MS = 1 * 60 * 1000; // ⏱️ 1 menit
-
-  function now(){ return Date.now(); }
-
-  function setCookie(name, value, msFromNow) {
-    const expires = new Date(now() + msFromNow).toUTCString();
-    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
-  }
-
-  function getCookie(name) {
-    const found = document.cookie.split("; ").find(r => r.startsWith(encodeURIComponent(name) + "="));
-    return found ? decodeURIComponent(found.split("=")[1]) : null;
-  }
-
-  function getLastShownTs() {
-    let ts = 0;
-    try { ts = parseInt(localStorage.getItem(KEY) || "0", 10) || 0; } catch(e){}
-    if (!ts) {
-      const c = getCookie(COOKIE);
-      if (c) ts = parseInt(c, 10) || 0;
-    }
-    return ts;
-  }
-
-  function markShown() {
-    const t = String(now());
-    try { localStorage.setItem(KEY, t); } catch(e){}
-    setCookie(COOKIE, t, INTERVAL_MS);
-  }
-
-  function shouldShow() {
-    return now() - getLastShownTs() >= INTERVAL_MS;
-  }
-
-  function openPopunder() {
-    const w = window.open(POP_URL, "_blank", "noopener"); // harus terjadi dalam user gesture
-    if (w) {
-      try { w.blur(); } catch(e){}
-      setTimeout(() => { try { window.focus(); } catch(e){} }, 0);
-      markShown();
-    }
-  }
-
-  if (shouldShow()) {
-    const handler = () => {
-      // guard kedua: pastikan belum lewat user gesture lain yang memicu
-      if (shouldShow()) openPopunder();
-      document.removeEventListener('pointerdown', handler);
-      document.removeEventListener('keydown', handler);
-      document.removeEventListener('touchstart', handler);
-    };
-    // tangkap first user gesture sebanyak mungkin jenisnya
-    document.addEventListener('pointerdown', handler, { once: true, passive: true });
-    document.addEventListener('keydown', handler, { once: true });
-    document.addEventListener('touchstart', handler, { once: true, passive: true });
-  }
-})();
-</script>
-	<meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Video Page Mock</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D + Adult games · itch.io style</title>
+  <!-- Font Awesome (optional but adds icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    :root{
-      --bg:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#111827;
-      --btn:#111827; --btnText:#ffffff; --btnHover:#000000; --card:#f8fafc;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /* ===== RESET & BASE ===== */
-    *,*::before,*::after{ box-sizing:border-box }
-    html{ -webkit-text-size-adjust:100% }
-    html,body{ height:100%; margin:0 }
-    body{
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
-      color:var(--text); background:var(--bg); line-height:1.45;
-      overflow-x:hidden; /* cegah melebar */
-    }
-    img,video,canvas,svg,iframe{ max-width:100%; height:auto; display:block }
-
-    /* ===== APP BAR ===== */
-    .appbar{
-      position:sticky; top:0; z-index:20; background:rgba(255,255,255,.85);
-      backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);
-    }
-    .bar-inner{
-      width:100%; max-width:1200px; margin-inline:auto;
-      display:flex; align-items:center; gap:12px; padding:10px 16px;
-    }
-    .brand{ display:flex; align-items:center; gap:8px; font-weight:800; letter-spacing:.2px }
-    .logo{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:6px; background:#111827; color:#fff; font-size:14px }
-    .spacer{ flex:1 }
-    .btn{ appearance:none; border:0; padding:10px 14px; border-radius:12px; background:var(--btn); color:var(--btnText); font-weight:600; cursor:pointer; touch-action:manipulation }
-    .btn:hover{ background:var(--btnHover) }
-
-    /* ===== BANNER INFO ===== */
-    .banner{
-      width:100%; max-width:1200px; margin:10px auto 0; padding:8px 16px;
-      color:var(--muted); font-size:14px;
+    body {
+      background: #f5f3f0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1e1e1e;
+      padding: 2rem 1.5rem;
     }
 
-    /* ===== LAYOUT ===== */
-    .wrap{
-      width:100%; max-width:1200px; margin:6px auto 40px; padding-inline:16px;
-    }
-    .player-shell{ display:grid; place-items:center; margin-top:20px }
-
-    /* Elemen ‘ponsel/video’ aman di HP */
-    .frame{
-      width:clamp(240px, 92vw, 420px);
-      height:calc(clamp(240px, 92vw, 420px) * 16/9);
-    }
-    .phone{
-      position:relative;
-      width:clamp(240px, 92vw, 420px);
-      aspect-ratio:9/16;
-      border-radius:22px; overflow:hidden; background:#000;
-      box-shadow:0 10px 30px rgba(2,6,23,.15), 0 3px 10px rgba(2,6,23,.08);
-    }
-    .phone video,.phone img{ width:100%; height:100%; object-fit:cover }
-
-    /* Footer meta */
-    .meta{
-      width:100%; max-width:760px; margin:22px auto 0; padding:0 6px;
-      text-align:center; color:var(--muted); font-size:13px;
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
     }
 
-    /* Slot iklan dummy di halaman (bukan popup) */
-    .ad-slot{
-      width:100%; max-width:760px; margin:28px auto 0;
-      background:var(--card); border:1px dashed var(--line); border-radius:16px; padding:16px; text-align:center; color:var(--muted);
+    /* header / top bar */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem 0.5rem;
+      margin-bottom: 2.5rem;
     }
 
-    /* ===== DESKTOP ENHANCEMENT ===== */
-    @media (min-width:1024px){
-      .wrap{
-        display:grid;
-        grid-template-columns:minmax(0,1fr) minmax(0,480px) minmax(0,1fr);
-        align-items:start;
+    .header h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .header h1 span {
+      background: #1a1a1a;
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 400;
+      margin-left: 0.5rem;
+    }
+
+    .tag-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .tag-filter span {
+      background: #eae8e5;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #2b2b2b;
+    }
+
+    .tag-filter i {
+      margin-right: 6px;
+      color: #7a7a7a;
+    }
+
+    .age-gate {
+      background: #d32f2f;
+      color: white;
+      font-weight: 600;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      display: inline-block;
+      letter-spacing: 0.3px;
+    }
+
+    .sub-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin: 1.5rem 0 2rem 0;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.8rem;
+    }
+
+    .sub-header h2 {
+      font-weight: 500;
+      font-size: 1.4rem;
+    }
+
+    .sub-header h2 small {
+      font-weight: 400;
+      color: #5a5a5a;
+      font-size: 1rem;
+      margin-left: 0.6rem;
+    }
+
+    .sub-header .youtube-badge {
+      background: #ff0033;
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* grid */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .game-card {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      transition: 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #ecebe9;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+    }
+
+    .card-thumb {
+      background: #d9d4ce;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #3b3b3b;
+      font-weight: 500;
+      background-image: linear-gradient(145deg, #e2ddd7, #cfc9c2);
+      position: relative;
+    }
+
+    .card-thumb i {
+      font-size: 2.8rem;
+      opacity: 0.5;
+      color: #2c2c2c;
+    }
+
+    .card-thumb .play-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(2px);
+      color: white;
+      padding: 0.2rem 0.9rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .card-body {
+      padding: 1rem 1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.3;
+      margin-bottom: 0.3rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-genre {
+      font-size: 0.8rem;
+      color: #6f6f6f;
+      margin-bottom: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+    }
+
+    .card-genre span {
+      background: #f0eeea;
+      padding: 0.1rem 0.6rem;
+      border-radius: 30px;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #eae8e5;
+      padding-top: 0.8rem;
+    }
+
+    .download-btn {
+      background: #1a1a1a;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.15s;
+      text-decoration: none;
+      letter-spacing: 0.2px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .download-btn i {
+      font-size: 0.9rem;
+    }
+
+    .download-btn:hover {
+      background: #2e2e2e;
+      transform: scale(0.97);
+    }
+
+    .download-btn:active {
+      background: #000;
+    }
+
+    .card-footer .price {
+      font-size: 0.8rem;
+      color: #3d7e3d;
+      font-weight: 500;
+    }
+
+    .footer-note {
+      margin-top: 3.5rem;
+      text-align: center;
+      color: #6b6b6b;
+      font-size: 0.9rem;
+      border-top: 1px solid #ddd;
+      padding-top: 2rem;
+    }
+
+    .footer-note i {
+      margin: 0 4px;
+    }
+
+    /* responsive */
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      .player-shell{ grid-column:2 }
-    }
-
-    /* ===== POPUP GATE (tema gelap) ===== */
-    :root{
-      --card-dark:#0f172a; --text-dark:#e5e7eb; --muted-dark:#94a3b8; --line-dark:#1e293b;
-    }
-    #gate-overlay{
-      position:fixed; inset:0; background:rgba(2,6,23,.6);
-      backdrop-filter: blur(3px) saturate(130%); z-index:9998;
-    }
-    #gate-modal{
-      position:fixed; inset:0; z-index:9999;
-      display:flex; align-items:center; justify-content:center; padding:16px;
-    }
-    .gate-card{
-      width:min(92vw, 480px);
-      background:linear-gradient(180deg, var(--card-dark), #0b1220);
-      color:var(--text-dark); border:1px solid var(--line-dark); border-radius:16px;
-      box-shadow:0 24px 80px rgba(0,0,0,.45);
-      padding:20px; position:relative;
-    }
-    .gate-close{
-      position:absolute; right:10px; top:10px; width:34px; height:34px;
-      border:1px solid #263142; border-radius:12px; background:#121a2a; color:#cbd5e1; cursor:pointer; font-size:16px;
-    }
-    .gate-header h3{ margin:6px 0 4px; font-size:1.2rem }
-    .gate-sub{ margin:0 0 12px; color:var(--muted-dark) }
-    .gate-badge{
-      display:inline-block; background:conic-gradient(from 180deg at 50% 50%, #ef4444, #f59e0b, #22c55e, #3b82f6, #ef4444);
-      -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; font-size:1.1rem;
-      border:1px solid #263142; padding:6px 10px; border-radius:10px;
-    }
-    .gate-icon{ font-size:28px }
-    .gate-check{ display:flex; gap:.6rem; align-items:flex-start; font-size:.98rem; margin:.25rem 0 1rem }
-    .gate-check input{ transform:translateY(3px) }
-    .gate-actions{ display:flex; gap:.6rem }
-    .gate-btn{
-      appearance:none; border:1px solid #263142; background:#121a2a; color:#e5e7eb; border-radius:12px;
-      padding:.65rem 1rem; font-weight:700; cursor:pointer; letter-spacing:.3px;
-    }
-    .gate-btn:disabled{ opacity:.5; cursor:not-allowed }
-    .gate-btn.ghost{ background:transparent; color:#cbd5e1 }
-    .gate-footnote{ margin:.8rem 0 0; font-size:.85rem; color:#93a4bd; display:flex; align-items:center; gap:.4rem }
-    .dot{ width:6px; height:6px; border-radius:50%; background:#22c55e; display:inline-block }
-
-    /* Ad slot di popup: scale 728×90 agar muat HP */
-    #ad-slot-wrap{ width:100%; overflow:hidden; border-top:1px dashed var(--line-dark); margin-top:8px; padding-top:8px; }
-    #ad-slot{ width:728px; transform-origin:top left }
-    @media (max-width:760px){
-      #ad-slot{ transform:scale(calc((100vw - 72px)/728)); } /* 72px ≈ padding & border kartu */
-    }
-
-    /* ===== MOBILE FIX PACK (override bandel) ===== */
-    html, body { width:100% !important; max-width:100% !important; }
-    html, body, .wrap, .container, .page, .section, #__next, main { min-width:0 !important; }
-    iframe[width]{ max-width:100% !important; width:100% !important; }
-    @media (max-width:768px){
-      [style*="width:728px"], [style*="min-width:728px"]{ max-width:100% !important; width:100% !important; }
+      .header h1 {
+        font-size: 1.6rem;
+      }
+      .tag-filter {
+        padding: 0.4rem 1rem;
+        width: 100%;
+        justify-content: center;
+      }
+      .sub-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
-
 <body>
-  <!-- Top bar -->
-  <header class="appbar">
-    <div class="bar-inner">
-      <div class="brand" aria-label="brand">
-        <span class="logo" aria-hidden>V</span>
-        <span>videy<span style="color:#3b82f6">.mock</span></span>
+<div class="container">
+
+  <!-- header -->
+  <div class="header">
+    <h1>
+      🎮 itch.io 
+      <span>3D · Adult</span>
+    </h1>
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+      <div class="tag-filter">
+        <i class="fas fa-tag"></i>
+        <span>3D</span>
+        <span>Adult</span>
+        <span style="background:transparent; color:#888;">+1,163</span>
       </div>
-      <div class="spacer"></div>
-      <button class="btn">Upload</button>
+      <div class="age-gate"><i class="fas fa-exclamation-triangle"></i> 18+</div>
     </div>
-  </header>
+  </div>
 
-  <div class="banner">Advertise</div>
-	
-  <!-- ===== MAIN CONTENT ===== -->
-  <main class="wrap">
-    <section class="player-shell">
-      <div class="phone">
-        <video id="video" playsinline controls poster="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgiyBz94LM3CBjaVywZiBxh9MCaPGOKb9VCtY4_78H61Xi3BVqXzXUW_TubwT75GjIinIshKVkL04ekpYf9A48l7DBBX3utDk8FS9azhD6UIZWerpC8hQE_eX7uPEfT0QM50coMvRWld6JjynDTjydyhgHwyhD8dw70eFUNnPDvXDp73nVxxRw1V-OZ5jMy/s320/Screenshot_40.png">
-          <source src="https://cdn.jsdelivr.net/gh/paketu22/video-cdn@main/asset/97.mp4" type="video/mp4" />
-          Browser kamu tidak mendukung pemutar video HTML5.
-        </video>
-	
-      </div>
-
-      <div class="meta">0:00 / 3:57 • Putar untuk memulai</div>
-      <div class="ad-slot">Slot Iklan 728×90 (contoh)</div>
-    </section>
-  </main>
-
-  <script>
-    // Update teks durasi kecil
-    const v = document.getElementById('video');
-    const meta = document.querySelector('.meta');
-    function fmt(t){ const m = Math.floor(t/60); const s = Math.floor(t%60).toString().padStart(2,'0'); return `${m}:${s}`; }
-    v.addEventListener('loadedmetadata', ()=>{ meta.textContent = `0:00 / ${fmt(v.duration)}`; });
-    v.addEventListener('timeupdate',     ()=>{ meta.textContent = `${fmt(v.currentTime)} / ${fmt(v.duration)}`; });
-  </script>
-	<!-- ========== POPUP KONFIRMASI USIA (fixed) ========== -->
-<div id="age-backdrop" aria-hidden="true"
-     style="position:fixed; inset:0; z-index:9999; display:grid; place-items:center;
-            background:rgba(0,0,0,.50); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-            padding:16px; opacity:0; visibility:hidden; pointer-events:none; 
-            transition:opacity .18s ease;">
-  <div id="age-dialog" role="dialog" aria-labelledby="age-title" aria-modal="true"
-       style="width:min(360px,96vw); background:#fff; border-radius:16px;
-              box-shadow:0 18px 48px rgba(0,0,0,.32); transform:scale(.96);
-              transition:transform .18s ease, opacity .18s ease; opacity:.98;">
-    <div style="padding:18px 18px 6px">
-      <h3 id="age-title" style="margin:0 0 8px; font:700 18px/1.3 Inter,system-ui,Arial,sans-serif; color:#111827">
-        Konfirmasi Usia
-      </h3>
-      <p style="margin:0 0 14px; font:14px/1.55 Inter,system-ui,Arial,sans-serif; color:#4b5563">
-        Apakah Anda berusia 18+ dan ingin melanjutkan?
-      </p>
+  <!-- sub header -->
+  <div class="sub-header">
+    <h2>
+      Top tagged <strong>3D</strong> and <strong>Adult</strong> 
+      <small>(1,163 results)</small>
+    </h2>
+    <div class="youtube-badge">
+      <i class="fab fa-youtube"></i> itch.io on YouTube
     </div>
-    <div style="display:flex; gap:10px; padding:12px 18px 18px">
-      <button id="age-cancel" type="button"
-        style="flex:1; background:#e5e7eb; color:#111827; border:0; border-radius:12px; height:40px;
-               font:600 14px Inter,system-ui,Arial,sans-serif; letter-spacing:.2px; cursor:pointer;">
-        BATAL
-      </button>
-      <button id="age-continue" type="button"
-        style="flex:1; background:#ef4444; color:#fff; border:0; border-radius:12px; height:40px;
-               font:700 14px Inter,system-ui,Arial,sans-serif; letter-spacing:.2px; cursor:pointer;">
-        LANJUT
-      </button>
-    </div>
+  </div>
+
+  <!-- game grid -->
+  <div class="game-grid" id="gameGrid">
+    <!-- cards will be injected by JS -->
+  </div>
+
+  <div class="footer-note">
+    <i class="fas fa-upload"></i> Upload your games to itch.io · 
+    <i class="fas fa-gamepad"></i> 3D · Adult collection
   </div>
 </div>
 
 <script>
-/* ================== KONFIG ================== */
-const AGE_NEXT_URL      = "https://www.effectivegatecpm.com/w8f0bxw4ay?key=7951833b3353654f42d250eb2c06ef5e"; // tujuan tombol LANJUT
-const OFFER_URL         = "https://whatsapp.com/channel/0029Vb6He3YH5JM19YoLUX1X";  // tujuan tombol BATAL
-const AUTO_SHOW_DELAY_MS= 10000;
-const REMEMBER_TTL_MIN  = 120;
-/* ============================================ */
+  (function() {
+    // -------- sample game data (inspired by itch.io) --------
+    const games = [
+      { title: "Slice of Life Romance", genre: "Visual Novel", tags: ["3D", "Romance", "Horror"] },
+      { title: "Story-focused Mystery Harem", genre: "Visual Novel", tags: ["3D", "Mystery", "Harem"] },
+      { title: "Urban Fantasy AVN", genre: "Visual Novel", tags: ["3D", "Fantasy", "Urban"] },
+      { title: "Exploration Adult Action", genre: "Action", tags: ["3D", "Exploration", "Adult"] },
+      { title: "Furry Roguelike Survival", genre: "Action", tags: ["3D", "Roguelike", "Furry"] },
+      { title: "NightClub Lust Adventure", genre: "Visual Novel", tags: ["3D", "NightClub", "Lust"] },
+      { title: "Mystery Harem Visual Novel", genre: "Visual Novel", tags: ["3D", "Mystery", "Harem"] },
+      { title: "Hentai Harem Sandbox", genre: "Visual Novel", tags: ["3D", "Sandbox", "Anime"] },
+      { title: "Sci-Fi Adult Game", genre: "Visual Novel", tags: ["3D", "Sci-Fi", "Story"] },
+      { title: "Harem + Horror Mystery", genre: "Visual Novel", tags: ["3D", "Horror", "Harem"] },
+      { title: "Don't forget to pet the Dog", genre: "Visual Novel", tags: ["3D", "Comedy", "Pet"] },
+      { title: "Anime Dating Sim", genre: "Visual Novel", tags: ["3D", "Dating Sim", "Anime"] },
+      { title: "NSFW Parody Visual Novel", genre: "Visual Novel", tags: ["3D", "Parody", "NSFW"] },
+      { title: "Story-rich Romance (18+)", genre: "Visual Novel", tags: ["3D", "Romance", "Drama"] },
+      { title: "Fun & Sexy Harem Story", genre: "Visual Novel", tags: ["3D", "Comedy", "Harem"] },
+      { title: "NSFW Adventure Visual Novel", genre: "Adventure", tags: ["3D", "Adventure", "NSFW"] },
+      { title: "Sandbox Dating Sim Hentai", genre: "Visual Novel", tags: ["3D", "Sandbox", "Hentai"] },
+      { title: "Freeroam 3D Adult", genre: "Simulation", tags: ["3D", "Freeroam", "Adult"] },
+      { title: "Reversed Gender Roles World", genre: "Visual Novel", tags: ["3D", "Futanari", "Gender"] },
+      { title: "Make new friends & improve", genre: "Visual Novel", tags: ["3D", "Dating", "Social"] },
+      { title: "Two Timelines Harem", genre: "Visual Novel", tags: ["3D", "Time travel", "Harem"] },
+      { title: "Become a Harem King!", genre: "Visual Novel", tags: ["3D", "Harem", "Comedy"] },
+      { title: "NSFW Stealth Game", genre: "Action", tags: ["3D", "Stealth", "NSFW"] },
+      { title: "Story-rich AVN with animations", genre: "Visual Novel", tags: ["3D", "Animation", "Story"] },
+      { title: "Detective Harem Mystery", genre: "Visual Novel", tags: ["3D", "Detective", "Mystery"] },
+      { title: "Gay Visual Novel", genre: "Visual Novel", tags: ["3D", "LGBTQ+", "Romance"] },
+      { title: "Dark Story-based Romance", genre: "Visual Novel", tags: ["3D", "Dark", "Romance"] },
+      { title: "Erotic Dungeon Crawler", genre: "RPG", tags: ["3D", "Dungeon", "Erotic"] },
+      { title: "Farming & Ancient Goddess", genre: "Visual Novel", tags: ["3D", "Farming", "Mythology"] },
+      { title: "Choose your fate in Evermore", genre: "Visual Novel", tags: ["3D", "Fantasy", "Choice"] },
+      { title: "Story-focused Adult Mystery", genre: "Visual Novel", tags: ["3D", "Mystery", "Adult"] },
+      { title: "Unreal RPG Survival", genre: "Role Playing", tags: ["3D", "Survival", "RPG"] }
+    ];
 
-const $root      = document.documentElement;
-const $body      = document.body;
-const $backdrop  = document.getElementById('age-backdrop');
-const $dialog    = document.getElementById('age-dialog');
-const $btnCancel = document.getElementById('age-cancel');
-const $btnGo     = document.getElementById('age-continue');
+    // -------- Adsterra direct links (placeholders) --------
+    // replace the '#' with your Adsterra direct link for each game
+    const downloadLinks = [
+      "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",  // slice of life
+      "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",  // mystery harem
+      "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",  // urban fantasy
+      "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",  // exploration
+      "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",  // furry roguelike
+      "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",  // nightclub
+      "https://adsterra.com/direct-link/7",  // mystery harem 2
+      "https://adsterra.com/direct-link/8",  // hentai sandbox
+      "https://adsterra.com/direct-link/9",  // sci-fi
+      "https://adsterra.com/direct-link/10", // harem horror
+      "https://adsterra.com/direct-link/11", // pet dog
+      "https://adsterra.com/direct-link/12", // anime dating
+      "https://adsterra.com/direct-link/13", // parody
+      "https://adsterra.com/direct-link/14", // story-rich romance
+      "https://adsterra.com/direct-link/15", // fun harem
+      "https://adsterra.com/direct-link/16", // nsfw adventure
+      "https://adsterra.com/direct-link/17", // sandbox hentai
+      "https://adsterra.com/direct-link/18", // freeroam
+      "https://adsterra.com/direct-link/19", // reversed gender
+      "https://adsterra.com/direct-link/20", // make friends
+      "https://adsterra.com/direct-link/21", // two timelines
+      "https://adsterra.com/direct-link/22", // harem king
+      "https://adsterra.com/direct-link/23", // stealth
+      "https://adsterra.com/direct-link/24", // story-rich avn
+      "https://adsterra.com/direct-link/25", // detective
+      "https://adsterra.com/direct-link/26", // gay vn
+      "https://adsterra.com/direct-link/27", // dark romance
+      "https://adsterra.com/direct-link/28", // dungeon
+      "https://adsterra.com/direct-link/29", // farming
+      "https://adsterra.com/direct-link/30", // evermore
+      "https://adsterra.com/direct-link/31", // adult mystery
+      "https://adsterra.com/direct-link/32"  // unreal rpg
+    ];
 
-function lockScroll(on){ $root.style.overflow = $body.style.overflow = on ? 'hidden' : ''; }
+    // ensure we have at least as many links as games
+    while (downloadLinks.length < games.length) {
+      downloadLinks.push("https://adsterra.com/direct-link/default");
+    }
 
-function showModal(){
-  if(!$backdrop) return;
-  $backdrop.setAttribute('aria-hidden','false');
-  $backdrop.style.visibility = 'visible';
-  $backdrop.style.pointerEvents = 'auto';
-  requestAnimationFrame(()=>{
-    $backdrop.style.opacity = '1';
-    $dialog.style.transform = 'scale(1)';
-  });
-  lockScroll(true);
-}
+    const grid = document.getElementById('gameGrid');
+    if (!grid) return;
 
-function destroyModal(){
-  try{ lockScroll(false); }catch(_){}
-  try{ $backdrop.setAttribute('aria-hidden','true'); }catch(_){}
-  try{ $backdrop.remove(); }catch(_){ $backdrop.style.display='none'; }
-}
+    // clear and build cards
+    grid.innerHTML = '';
 
-/* === HANYA buka tab baru, JANGAN redirect halaman sekarang === */
-function openInNewTabOnly(url){
-  // Cara 1: anchor click (lebih sukses di banyak browser)
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  // a.click() harus terjadi "dalam gesture" => dipanggil dari handler klik tombol
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+    games.forEach((game, index) => {
+      const card = document.createElement('div');
+      card.className = 'game-card';
 
-  // Jangan sekali pun set window.location di sini
-}
+      // thumbnail
+      const thumb = document.createElement('div');
+      thumb.className = 'card-thumb';
+      thumb.innerHTML = `
+        <i class="fas fa-cube"></i>
+        <span class="play-badge"><i class="fas fa-play"></i> play</span>
+      `;
+      card.appendChild(thumb);
 
-/* === Simpan TTL agar popup tak muncul lagi === */
-function rememberSkip(){
-  try { localStorage.setItem('age_ok_time', String(Date.now())); } catch {}
-}
-function shouldSkip(){
-  try {
-    const t = +localStorage.getItem('age_ok_time') || 0;
-    return Date.now() - t < REMEMBER_TTL_MIN*60*1000;
-  } catch { return false; }
-}
+      // body
+      const body = document.createElement('div');
+      body.className = 'card-body';
 
-/* === Klik tombol === */
-function handleChoice(url, ev){
-  if(ev){
-    ev.preventDefault();
-    ev.stopPropagation();
-    if (typeof ev.stopImmediatePropagation === 'function') ev.stopImmediatePropagation();
-  }
-  rememberSkip();
-  destroyModal();              // hilangkan popup dulu
-  openInNewTabOnly(url);       // lalu buka tab baru
-}
+      const title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = game.title;
+      body.appendChild(title);
 
-/* === Pasang listener (dengan pencegah bubbling) === */
-$btnGo.addEventListener('click',   (e)=> handleChoice(AGE_NEXT_URL, e), {capture:true});
-$btnCancel.addEventListener('click',(e)=> handleChoice(OFFER_URL,  e), {capture:true});
+      const genre = document.createElement('div');
+      genre.className = 'card-genre';
+      // show first two tags as genre chips
+      const tags = game.tags.slice(0, 2);
+      genre.innerHTML = tags.map(t => `<span>${t}</span>`).join('');
+      // add main genre
+      genre.innerHTML += ` <span style="background:#e2dcd4;">${game.genre}</span>`;
+      body.appendChild(genre);
 
-// Opsional: ESC menutup, backdrop tidak menutup
-window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') destroyModal(); });
+      // footer with download button
+      const footer = document.createElement('div');
+      footer.className = 'card-footer';
 
-// Tampilkan otomatis setelah delay, kecuali masih dalam TTL
-window.addEventListener('load', ()=>{ if(!shouldSkip()) setTimeout(showModal, AUTO_SHOW_DELAY_MS); });
+      // download button (Adsterra direct link)
+      const downloadBtn = document.createElement('a');
+      downloadBtn.className = 'download-btn';
+      downloadBtn.href = downloadLinks[index] || '#';
+      downloadBtn.target = '_blank';
+      downloadBtn.rel = 'noopener noreferrer';
+      downloadBtn.innerHTML = `<i class="fas fa-download"></i> Download`;
+      // optional: add data attribute for direct link
+      footer.appendChild(downloadBtn);
+
+      // price / fake
+      const price = document.createElement('span');
+      price.className = 'price';
+      price.textContent = 'Free';
+      footer.appendChild(price);
+
+      body.appendChild(footer);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+
+    // (optional) log hint to replace links
+    console.log('🔗 Replace the downloadLinks array with your Adsterra direct links.');
+  })();
 </script>
 
-
-  <!-- ===== Histats (OK di akhir body) ===== -->
-  <!-- Histats.com  START  (aync)-->
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,4984686,4,0,0,0,00010000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
-<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4984686&101" alt="" border="0"></a></noscript>
-<!-- Histats.com  END  -->
-
-  <!-- ===== Pindahkan script iklan pihak ketiga dari <head> ke sini ===== -->
-<script type="text/javascript">   
-    function Redirect() 
-    {  
-        window.location="https://whatsapp.com/channel/0029Vb6He3YH5JM19YoLUX1X"; 
-    } 
-    document.write("You will be redirected to a new page in 5 seconds"); 
-    setTimeout('Redirect()', 30000);   
-</script>
+<!-- you can replace the sample links directly in the downloadLinks array above -->
 </body>
 </html>
