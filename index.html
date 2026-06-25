@@ -8,9 +8,9 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #f5f3f0;
+      background: #0a0a0a;
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-      color: #1e1e1e;
+      color: #eaeaea;
       padding: 2rem 1.5rem;
     }
     .container { max-width: 1300px; margin: 0 auto; }
@@ -25,10 +25,11 @@
     .header h1 {
       font-size: 1.9rem;
       font-weight: 600;
+      color: #fff;
     }
     .header h1 span {
-      background: #1a1a1a;
-      color: white;
+      background: #2a2a2a;
+      color: #ddd;
       padding: 0.2rem 0.8rem;
       border-radius: 30px;
       font-size: 1rem;
@@ -39,19 +40,20 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      background: white;
+      background: #1a1a1a;
       padding: 0.6rem 1.2rem;
       border-radius: 40px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
     .tag-filter span {
-      background: #eae8e5;
+      background: #2e2e2e;
       padding: 0.25rem 1rem;
       border-radius: 30px;
       font-size: 0.9rem;
       font-weight: 500;
-      color: #2b2b2b;
+      color: #ccc;
     }
+    .tag-filter i { color: #aaa; }
     .age-gate {
       background: #d32f2f;
       color: white;
@@ -67,16 +69,17 @@
       align-items: baseline;
       flex-wrap: wrap;
       margin: 1.5rem 0 2rem 0;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #2a2a2a;
       padding-bottom: 0.8rem;
     }
     .sub-header h2 {
       font-weight: 500;
       font-size: 1.4rem;
+      color: #eee;
     }
     .sub-header h2 small {
       font-weight: 400;
-      color: #5a5a5a;
+      color: #888;
       font-size: 1rem;
       margin-left: 0.6rem;
     }
@@ -86,18 +89,19 @@
       gap: 1.8rem;
     }
     .game-card {
-      background: white;
+      background: #141414;
       border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
       transition: 0.2s ease;
       display: flex;
       flex-direction: column;
-      border: 1px solid #ecebe9;
+      border: 1px solid #262626;
     }
     .game-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+      box-shadow: 0 16px 32px rgba(0,0,0,0.8);
+      border-color: #3a3a3a;
     }
     .card-thumb {
       height: 140px;
@@ -119,7 +123,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.7);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -138,7 +142,7 @@
       border-radius: 40px;
       font-size: 1rem;
       font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
       cursor: pointer;
       transition: 0.15s;
       display: inline-flex;
@@ -169,31 +173,33 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      color: #eee;
     }
     .card-genre {
       font-size: 0.8rem;
-      color: #6f6f6f;
+      color: #999;
       margin-bottom: 0.6rem;
       display: flex;
       flex-wrap: wrap;
       gap: 4px 8px;
     }
     .card-genre span {
-      background: #f0eeea;
+      background: #252525;
       padding: 0.1rem 0.6rem;
       border-radius: 30px;
+      color: #bbb;
     }
     .card-footer {
       margin-top: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid #eae8e5;
+      border-top: 1px solid #262626;
       padding-top: 0.8rem;
     }
     .download-btn {
-      background: #1a1a1a;
-      color: white;
+      background: #2a2a2a;
+      color: #ddd;
       border: none;
       padding: 0.5rem 1.2rem;
       border-radius: 40px;
@@ -207,16 +213,18 @@
       text-decoration: none;
     }
     .download-btn:hover {
-      background: #2e2e2e;
+      background: #3a3a3a;
       transform: scale(0.97);
+      color: #fff;
     }
     .download-btn i { font-size: 0.9rem; }
+    .price { color: #6a6a6a; font-weight: 500; }
     .footer-note {
       margin-top: 3.5rem;
       text-align: center;
-      color: #6b6b6b;
+      color: #555;
       font-size: 0.9rem;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid #222;
       padding-top: 2rem;
     }
     @media (max-width: 600px) {
@@ -234,7 +242,7 @@
         <i class="fas fa-tag"></i>
         <span>3D</span>
         <span>Adult</span>
-        <span style="background:transparent; color:#888;">+1,163</span>
+        <span style="background:transparent; color:#666;">+1,163</span>
       </div>
       <div class="age-gate"><i class="fas fa-exclamation-triangle"></i> 18+</div>
     </div>
@@ -274,21 +282,54 @@
     { title: "Two Timelines Harem", genre: "Visual Novel", tags: ["3D", "Time travel"], img: "https://www.android-porn-games.com/images/games/kinky-cats.jpg" },
     { title: "Become a Harem King!", genre: "Visual Novel", tags: ["3D", "Harem"], img: "https://www.android-porn-games.com/images/games/hentai-heroes.jpg" },
     { title: "NSFW Stealth Game", genre: "Action", tags: ["3D", "Stealth"], img: "https://www.android-porn-games.com/images/games/ourdream-ai-2.gif" },
-    { title: "Story-rich AVN", genre: "Visual Novel", tags: ["3D", "Animation"], img: "https://greatideagames.com/wp-content/uploads/2025/12/unnamed-file-1.png" },
-    { title: "Detective Harem", genre: "Visual Novel", tags: ["3D", "Detective"], img: "https://greatideagames.com/wp-content/uploads/2025/09/unnamed-file-6.jpg" },
-    { title: "Gay Visual Novel", genre: "Visual Novel", tags: ["3D", "LGBTQ+"], img: "https://greatideagames.com/wp-content/uploads/2025/03/ss_42ae53f20648586df23abd78340613cc77703273.600x338.jpg" },
-    { title: "Dark Romance", genre: "Visual Novel", tags: ["3D", "Dark"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file-6.png" },
-    { title: "Erotic Dungeon", genre: "RPG", tags: ["3D", "Dungeon"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file-5.png" },
-    { title: "Farming & Goddess", genre: "Visual Novel", tags: ["3D", "Farming"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file-1.jpg" },
-    { title: "Choose your fate", genre: "Visual Novel", tags: ["3D", "Fantasy"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file.jpg" },
-    { title: "Adult Mystery", genre: "Visual Novel", tags: ["3D", "Mystery"], img: "https://greatideagames.com/wp-content/uploads/2025/10/unnamed-file.png" },
-    { title: "Unreal RPG Survival", genre: "Role Playing", tags: ["3D", "Survival"], img: "https://greatideagames.com/wp-content/uploads/2025/03/unnamed-file-27.jpg" },
+    { title: "Story-rich AVN", genre: "Visual Novel", tags: ["3D", "Animation"], img: "https://imgh.in/host/dp5g94" },
+    { title: "Detective Harem", genre: "Visual Novel", tags: ["3D", "Detective"], img: "https://imgh.in/host/cl430p" },
+    { title: "Gay Visual Novel", genre: "Visual Novel", tags: ["3D", "LGBTQ+"], img: "https://imgh.in/host/kzmoc4" },
+    { title: "Dark Romance", genre: "Visual Novel", tags: ["3D", "Dark"], img: "https://imgh.in/host/9ncuja" },
+    { title: "Erotic Dungeon", genre: "RPG", tags: ["3D", "Dungeon"], img: "https://imgh.in/host/75qk58" },
+    { title: "Farming & Goddess", genre: "Visual Novel", tags: ["3D", "Farming"], img: "https://imgh.in/host/cpopwp" },
+    { title: "Choose your fate", genre: "Visual Novel", tags: ["3D", "Fantasy"], img: "https://imgh.in/host/61f7we" },
+    { title: "Adult Mystery", genre: "Visual Novel", tags: ["3D", "Mystery"], img: "https://imgh.in/host/eu65mv" },
+    { title: "Unreal RPG Survival", genre: "Role Playing", tags: ["3D", "Survival"], img: "https://imgh.in/host/mg646z" },
     { title: "Erotic Visual Novel", genre: "Visual Novel", tags: ["3D", "Erotic"], img: "https://www.android-porn-games.com/images/games/virtual-lust-3d.jpg" },
     { title: "Harem Mystery", genre: "Visual Novel", tags: ["3D", "Harem"], img: "https://www.android-porn-games.com/images/games/3d-family-fuck.jpg" },
     { title: "Sci-Fi Adventure", genre: "Adventure", tags: ["3D", "Sci-Fi"], img: "https://www.android-porn-games.com/images/games/vr-porn-games.jpg" }
   ];
 
+  // Link Adsterra untuk Play Now
+  const adsterraLink = "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b";
+
   const downloadLinks = [
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
     "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
     "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
     // ... tambahkan sisanya sesuai kebutuhan
@@ -304,12 +345,12 @@
     const thumb = document.createElement('div');
     thumb.className = 'card-thumb';
     thumb.style.backgroundImage = `url(${game.img})`;
-    thumb.style.backgroundColor = '#d9d4ce';
+    thumb.style.backgroundColor = '#1a1a1a';
 
-    // Overlay dengan tombol Play Now (muncul saat hover)
+    // Overlay dengan tombol Play Now (muncul saat hover) - menggunakan link Adsterra
     const overlay = document.createElement('div');
     overlay.className = 'play-overlay';
-    overlay.innerHTML = `<a href="#" class="play-now-btn"><i class="fas fa-play"></i> Play Now</a>`;
+    overlay.innerHTML = `<a href="${adsterraLink}" target="_blank" rel="noopener noreferrer" class="play-now-btn"><i class="fas fa-play"></i> Play Now</a>`;
     thumb.appendChild(overlay);
 
     // Badge play disembunyikan (display:none via CSS)
@@ -332,7 +373,7 @@
     genre.className = 'card-genre';
     const tags = game.tags.slice(0, 2);
     genre.innerHTML = tags.map(t => `<span>${t}</span>`).join('');
-    genre.innerHTML += ` <span style="background:#e2dcd4;">${game.genre}</span>`;
+    genre.innerHTML += ` <span style="background:#2a2a2a; color:#aaa;">${game.genre}</span>`;
     body.appendChild(genre);
 
     const footer = document.createElement('div');
