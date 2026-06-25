@@ -109,18 +109,50 @@
       position: relative;
       background-size: cover;
       background-position: center;
+      transition: 0.3s;
+      cursor: pointer;
     }
-    .card-thumb .play-badge {
+    /* Hover overlay + tombol Play Now */
+    .card-thumb .play-overlay {
       position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(2px);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      border-radius: 18px 18px 0 0;
+    }
+    .card-thumb:hover .play-overlay {
+      opacity: 1;
+    }
+    .play-overlay .play-now-btn {
+      background: #ff3b3b;
       color: white;
-      padding: 0.2rem 0.9rem;
-      border-radius: 50px;
-      font-size: 0.7rem;
-      font-weight: 500;
+      border: none;
+      padding: 0.6rem 1.8rem;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .play-overlay .play-now-btn:hover {
+      background: #e02a2a;
+      transform: scale(1.04);
+    }
+    /* hilangkan badge play bawaan */
+    .card-thumb .play-badge {
+      display: none;
     }
     .card-body {
       padding: 1rem 1rem 1.2rem;
@@ -231,34 +263,34 @@
     { title: "Hentai Harem Sandbox", genre: "Visual Novel", tags: ["3D", "Sandbox"], img: "https://www.android-porn-games.com/images/games/everlusting-life.gif" },
     { title: "Sci-Fi Adult Game", genre: "Visual Novel", tags: ["3D", "Sci-Fi"], img: "https://www.android-porn-games.com/images/games/hentai-sex-3d.jpg" },
     { title: "Harem + Horror", genre: "Visual Novel", tags: ["3D", "Horror"], img: "https://www.android-porn-games.com/images/games/adult-world-3d.jpg" },
-    { title: "Anime Dating Sim", genre: "Visual Novel", tags: ["3D", "Anime"], img: "https://picsum.photos/seed/game10/400/200" },
-    { title: "NSFW Parody", genre: "Visual Novel", tags: ["3D", "Parody"], img: "https://picsum.photos/seed/game11/400/200" },
-    { title: "Story-rich Romance", genre: "Visual Novel", tags: ["3D", "Romance"], img: "https://picsum.photos/seed/game12/400/200" },
-    { title: "Fun & Sexy Harem", genre: "Visual Novel", tags: ["3D", "Comedy"], img: "https://picsum.photos/seed/game13/400/200" },
-    { title: "NSFW Adventure", genre: "Adventure", tags: ["3D", "NSFW"], img: "https://picsum.photos/seed/game14/400/200" },
-    { title: "Sandbox Dating Sim", genre: "Visual Novel", tags: ["3D", "Sandbox"], img: "https://picsum.photos/seed/game15/400/200" },
-    { title: "Freeroam 3D Adult", genre: "Simulation", tags: ["3D", "Freeroam"], img: "https://picsum.photos/seed/game16/400/200" },
-    { title: "Reversed Gender Roles", genre: "Visual Novel", tags: ["3D", "Futanari"], img: "https://picsum.photos/seed/game17/400/200" },
-    { title: "Two Timelines Harem", genre: "Visual Novel", tags: ["3D", "Time travel"], img: "https://picsum.photos/seed/game18/400/200" },
-    { title: "Become a Harem King!", genre: "Visual Novel", tags: ["3D", "Harem"], img: "https://picsum.photos/seed/game19/400/200" },
-    { title: "NSFW Stealth Game", genre: "Action", tags: ["3D", "Stealth"], img: "https://picsum.photos/seed/game20/400/200" },
-    { title: "Story-rich AVN", genre: "Visual Novel", tags: ["3D", "Animation"], img: "https://picsum.photos/seed/game21/400/200" },
-    { title: "Detective Harem", genre: "Visual Novel", tags: ["3D", "Detective"], img: "https://picsum.photos/seed/game22/400/200" },
-    { title: "Gay Visual Novel", genre: "Visual Novel", tags: ["3D", "LGBTQ+"], img: "https://picsum.photos/seed/game23/400/200" },
-    { title: "Dark Romance", genre: "Visual Novel", tags: ["3D", "Dark"], img: "https://picsum.photos/seed/game24/400/200" },
-    { title: "Erotic Dungeon", genre: "RPG", tags: ["3D", "Dungeon"], img: "https://picsum.photos/seed/game25/400/200" },
-    { title: "Farming & Goddess", genre: "Visual Novel", tags: ["3D", "Farming"], img: "https://picsum.photos/seed/game26/400/200" },
-    { title: "Choose your fate", genre: "Visual Novel", tags: ["3D", "Fantasy"], img: "https://picsum.photos/seed/game27/400/200" },
-    { title: "Adult Mystery", genre: "Visual Novel", tags: ["3D", "Mystery"], img: "https://picsum.photos/seed/game28/400/200" },
-    { title: "Unreal RPG Survival", genre: "Role Playing", tags: ["3D", "Survival"], img: "https://picsum.photos/seed/game29/400/200" },
-    { title: "Erotic Visual Novel", genre: "Visual Novel", tags: ["3D", "Erotic"], img: "https://picsum.photos/seed/game30/400/200" },
-    { title: "Harem Mystery", genre: "Visual Novel", tags: ["3D", "Harem"], img: "https://picsum.photos/seed/game31/400/200" },
-    { title: "Sci-Fi Adventure", genre: "Adventure", tags: ["3D", "Sci-Fi"], img: "https://picsum.photos/seed/game32/400/200" }
+    { title: "Anime Dating Sim", genre: "Visual Novel", tags: ["3D", "Anime"], img: "https://www.android-porn-games.com/images/games/ai-adult-games.jpg" },
+    { title: "NSFW Parody", genre: "Visual Novel", tags: ["3D", "Parody"], img: "https://www.android-porn-games.com/images/games/3d-family-fuck.jpg" },
+    { title: "Story-rich Romance", genre: "Visual Novel", tags: ["3D", "Romance"], img: "https://www.android-porn-games.com/images/games/vr-fuck-dolls.jpg" },
+    { title: "Fun & Sexy Harem", genre: "Visual Novel", tags: ["3D", "Comedy"], img: "https://www.android-porn-games.com/images/games/family-sex-simulator.jpg" },
+    { title: "NSFW Adventure", genre: "Adventure", tags: ["3D", "NSFW"], img: "https://www.android-porn-games.com/images/games/virtual-lust-3d.jpg" },
+    { title: "Sandbox Dating Sim", genre: "Visual Novel", tags: ["3D", "Sandbox"], img: "https://www.android-porn-games.com/images/games/3d-girlz.jpg" },
+    { title: "Freeroam 3D Adult", genre: "Simulation", tags: ["3D", "Freeroam"], img: "https://www.android-porn-games.com/images/games/grand-bang-auto.jpg" },
+    { title: "Reversed Gender Roles", genre: "Visual Novel", tags: ["3D", "Futanari"], img: "https://www.android-porn-games.com/images/games/aeons-echo.jpg" },
+    { title: "Two Timelines Harem", genre: "Visual Novel", tags: ["3D", "Time travel"], img: "https://www.android-porn-games.com/images/games/kinky-cats.jpg" },
+    { title: "Become a Harem King!", genre: "Visual Novel", tags: ["3D", "Harem"], img: "https://www.android-porn-games.com/images/games/hentai-heroes.jpg" },
+    { title: "NSFW Stealth Game", genre: "Action", tags: ["3D", "Stealth"], img: "https://www.android-porn-games.com/images/games/ourdream-ai-2.gif" },
+    { title: "Story-rich AVN", genre: "Visual Novel", tags: ["3D", "Animation"], img: "https://greatideagames.com/wp-content/uploads/2025/12/unnamed-file-1.png" },
+    { title: "Detective Harem", genre: "Visual Novel", tags: ["3D", "Detective"], img: "https://greatideagames.com/wp-content/uploads/2025/09/unnamed-file-6.jpg" },
+    { title: "Gay Visual Novel", genre: "Visual Novel", tags: ["3D", "LGBTQ+"], img: "https://greatideagames.com/wp-content/uploads/2025/03/ss_42ae53f20648586df23abd78340613cc77703273.600x338.jpg" },
+    { title: "Dark Romance", genre: "Visual Novel", tags: ["3D", "Dark"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file-6.png" },
+    { title: "Erotic Dungeon", genre: "RPG", tags: ["3D", "Dungeon"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file-5.png" },
+    { title: "Farming & Goddess", genre: "Visual Novel", tags: ["3D", "Farming"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file-1.jpg" },
+    { title: "Choose your fate", genre: "Visual Novel", tags: ["3D", "Fantasy"], img: "https://greatideagames.com/wp-content/uploads/2025/11/unnamed-file.jpg" },
+    { title: "Adult Mystery", genre: "Visual Novel", tags: ["3D", "Mystery"], img: "https://greatideagames.com/wp-content/uploads/2025/10/unnamed-file.png" },
+    { title: "Unreal RPG Survival", genre: "Role Playing", tags: ["3D", "Survival"], img: "https://greatideagames.com/wp-content/uploads/2025/03/unnamed-file-27.jpg" },
+    { title: "Erotic Visual Novel", genre: "Visual Novel", tags: ["3D", "Erotic"], img: "https://www.android-porn-games.com/images/games/virtual-lust-3d.jpg" },
+    { title: "Harem Mystery", genre: "Visual Novel", tags: ["3D", "Harem"], img: "https://www.android-porn-games.com/images/games/3d-family-fuck.jpg" },
+    { title: "Sci-Fi Adventure", genre: "Adventure", tags: ["3D", "Sci-Fi"], img: "https://www.android-porn-games.com/images/games/vr-porn-games.jpg" }
   ];
 
   const downloadLinks = [
-    "https://adsterra.com/direct-link/1",
-    "https://adsterra.com/direct-link/2",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
+    "https://oversightexcitement.com/waj01tcu?key=dad6d89994c5673e298839c6d3cb0e9b",
     // ... tambahkan sisanya sesuai kebutuhan
   ];
 
@@ -273,7 +305,19 @@
     thumb.className = 'card-thumb';
     thumb.style.backgroundImage = `url(${game.img})`;
     thumb.style.backgroundColor = '#d9d4ce';
-    thumb.innerHTML = `<span class="play-badge"><i class="fas fa-play"></i> play</span>`;
+
+    // Overlay dengan tombol Play Now (muncul saat hover)
+    const overlay = document.createElement('div');
+    overlay.className = 'play-overlay';
+    overlay.innerHTML = `<a href="#" class="play-now-btn"><i class="fas fa-play"></i> Play Now</a>`;
+    thumb.appendChild(overlay);
+
+    // Badge play disembunyikan (display:none via CSS)
+    const badge = document.createElement('span');
+    badge.className = 'play-badge';
+    badge.innerHTML = `<i class="fas fa-play"></i> play`;
+    thumb.appendChild(badge);
+
     card.appendChild(thumb);
 
     const body = document.createElement('div');
